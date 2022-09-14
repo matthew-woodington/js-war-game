@@ -10,15 +10,18 @@
 </head>
 <body>
     <main class="game-container">
-        <div class="player-deck">26</div>
-        <div class="player-card"></div>
+        <section class="game-block">
+            <div class="player-deck deck">26</div>
+            <div class="player-card card">K♦</div>
+        </section>
         <section class="text">
-            <div class="game-info"></div>
+            <div class="game-info">Player wins!</div>
             <button class="deal">Deal</button>
         </section>
-        <div class="computer-deck">26</div>
-        <div class="computer-card"></div>
-
+        <section class="game-block">
+            <div class="computer-card card"></div>
+            <div class="computer-deck deck">26</div>
+        </section>
     </main>
     <script src="../js-war-game/assets/js/main.js"></script>
 </body>

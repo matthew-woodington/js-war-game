@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Chewy&family=Fredoka+One&display=swap');
+html {
+    box-sizing: border-box;
+    height: 100%;
+    background: linear-gradient(0.30turn, #66c4ed, #ebf8e1, #f3c491);  background-color: #b8bbbf;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+main {
+    width: 80%;
+    height: 100vh;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.game-block {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+button {
+    margin: 1rem;
+    font-family: "Fredoka One", Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #46474a;
+    color: #fff;
+    cursor: pointer;
+}
+
+.game-info {
+    margin: 1rem;
+    font-size: 2rem;
+    text-align: center;
+    font-family: "Fredoka One", Arial, Helvetica, sans-serif;
+}
+
+button:hover {
+    background-color: #939599;
+    border: 2px solid #46474a;
+}
+
+.deck {
+    font-family: "Chewy", Arial, Helvetica, sans-serif;
+    width: 8rem;
+    height: 12rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    border: 2px solid #000000;
+    border-radius: 0.5rem;
+    margin: .5rem;
+}
+
+.player-deck {
+    background-color: #1886f5;
+}
+
+.computer-deck {
+    background-color: #b72b2b;
+}
+
+.card {
+    font-family: "Chewy", Arial, Helvetica, sans-serif;
+    width: 8rem;
+    height: 12rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    border: 2px solid #000000;
+    border-radius: 0.5rem;
+    margin: .5rem;
+    background-color: #fff;
+}
+
+
+
+@media (max-width: 978px) {
+    main {
+        flex-direction: column;
+        justify-content: space-around;
+    }
+}
