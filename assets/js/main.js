@@ -21,7 +21,13 @@ function Deck(cards = newDeck()) {
   this.cards = cards;
 }
 
+Deck.prototype.shuffle = function () {
+  this.cards.sort((a, b) => Math.random() - 0.5);
+};
+
 const deck = new Deck();
+
+// deck.shuffle();
 console.log(deck.cards);
 
 ///
