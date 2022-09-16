@@ -88,7 +88,6 @@ function Card(suit, value) {
 ///
 
 function Player(deck = [], card = {}) {
-  //   this.name = name;
   this.deck = deck;
   this.card = card;
 }
@@ -100,8 +99,6 @@ let player1 = new Player({
 let player2 = new Player({
   deck: player2Deck,
 });
-
-Player.prototype.updateCardCount = function () {};
 
 function Game(player1, player2) {
   this.player1 = player1;
@@ -177,6 +174,16 @@ function flipCard() {
     // tieCards2 = player2Deck.splice(-3);
 
     // tiePot.push(tieCards1, tieCards2);
+  }
+
+  if (isGameOver(player1Deck)) {
+    gameDisplay.innerHTML = "Game Over! Player2 Wins!";
+    player2DeckDisplay.innerHTML = "☺";
+    player1DeckDisplay.innerHTML = "☹";
+  } else if (isGameOver(player2Deck)) {
+    gameDisplay.innerHTML = "Game Over! Player1 Wins!";
+    player1DeckDisplay.innerHTML = "☺";
+    player2DeckDisplay.innerHTML = "☹";
   }
 }
 //// ---- ////
