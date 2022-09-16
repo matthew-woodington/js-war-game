@@ -74,11 +74,11 @@ button:hover {
     margin: .5rem;
 }
 
-.player-deck {
+.player1-deck {
     background-color: #1886f5;
 }
 
-.computer-deck {
+.player2-deck {
     background-color: #d33c2f;
 }
 

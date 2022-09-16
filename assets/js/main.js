@@ -31,12 +31,18 @@ const cardValues = {
   A: 14,
 };
 
+let inGame = false;
+let isTie = false;
+let tiePot = [],
+  tieCards1 = [],
+  tieCards2 = [];
+
 //// QUERY ////
 
-const playerCardDisplay = document.querySelector(".player-card");
-const computerCardDisplay = document.querySelector(".computer-card");
-const playerDeckDisplay = document.querySelector(".player-deck");
-const computerDeckDisplay = document.querySelector(".computer-deck");
+const player1CardDisplay = document.querySelector(".player1-card");
+const player2CardDisplay = document.querySelector(".player2-card");
+const player1DeckDisplay = document.querySelector(".player1-deck");
+const player2DeckDisplay = document.querySelector(".player2-deck");
 const gameDisplay = document.querySelector(".game-info");
 const drawButton = document.querySelector(".draw");
 
@@ -58,25 +64,16 @@ function newDeck() {
   });
 }
 
-const deck = new Deck();
+const mainDeck = new Deck();
 
-deck.shuffle();
-console.log(deck.cards);
+mainDeck.shuffle();
+console.log(mainDeck.cards);
 
-playerDeck = deck.cards.slice(0, 26);
-computerDeck = deck.cards.slice(26);
+player1Deck = mainDeck.cards.slice(0, 26);
+player2Deck = mainDeck.cards.slice(26);
 
-console.log(playerDeck);
-console.log(computerDeck);
-
-activePlayerCard = playerDeck.pop();
-console.log(activePlayerCard);
-
-activeComputerCard = computerDeck.pop();
-console.log(activeComputerCard);
-
-playerCardDisplay.innerHTML = `${this.activePlayerCard.value}${this.activePlayerCard.suit}`;
-computerCardDisplay.innerHTML = `${this.activeComputerCard.value}${this.activeComputerCard.suit}`;
+// console.log(player1Deck);
+// console.log(player2Deck);
 
 ///
 
@@ -87,58 +84,104 @@ function Card(suit, value) {
 
 ///
 
-// function Player(name, deck) {
-//   this.name = name;
-//   this.deck = deck;
-// }
+function Player(deck = [], card = {}) {
+  //   this.name = name;
+  this.deck = deck;
+  this.card = card;
+}
 
-///
+let player1 = new Player({
+  deck: player1Deck,
+});
 
-// function Game({ players, mainDeck }) {
-//   this.players = [
-//     new Player({ name: "Player" }),
-//     new Player({ name: "Computer" }),
-//   ];
-//   this.mainDeck = mainDeck;
-// }
-// const mainDeck = new Deck();
-// mainDeck.shuffle();
-// console.log(mainDeck);
+let player2 = new Player({
+  deck: player2Deck,
+});
+
+Player.prototype.updateCardCount = function () {};
+
+function Game(player1, player2) {
+  this.player1 = player1;
+  this.player2 = player2;
+}
+
+const game = new Game();
+
+Game.prototype.playGame = function () {
+  if ((inGame = false)) {
+    startGame();
+  }
+  if ((inGame = true)) {
+    flipCard();
+  }
+};
 
 //// ---- ////
 
-// let playerDeck, computerDeck;
+drawButton.addEventListener("click", () => {
+  game.playGame();
+});
 
-// drawButton.addEventListener("click", () => {
-//   if ((inGame = false)) {
-//     startGame();
-//     return;
-//   }
+function startGame() {
+  inGame = true;
 
-//   if ((inGame = true)) {
-//     drawCards();
-//   }
-// });
+  flipCard();
+}
 
-// function startGame() {
-//   const deck = new Deck();
-//   deck.shuffle();
+function flipCard() {
+  activePlayer1Card = player1Deck.pop();
+  activePlayer2Card = player2Deck.pop();
 
-//   playerDeck = deck.cards.slice(0, 26);
-//   computerDeck = deck.cards.slice(26);
-//   inGame = true;
-// }
+  console.log(activePlayer1Card);
+  console.log(activePlayer2Card);
 
-// function drawCards() {
-//   const playerCard = playerDeck.pop();
-//   const computerCard = computerDeck.pop();
+  player1CardDisplay.innerHTML = `${this.activePlayer1Card.value}${this.activePlayer1Card.suit}`;
+  player2CardDisplay.innerHTML = `${this.activePlayer2Card.value}${this.activePlayer2Card.suit}`;
 
-// }
+  updateCardCount();
+
+  // if ((isTie = true)) {
+  //   if (winsRound(activePlayer1Card, activePlayer2Card)) {
+  //     gameDisplay.innerHTML = "Player1 wins Tie!";
+  //     player1Deck.unshift(activePlayer1Card);
+  //     player1Deck.unshift(activePlayer2Card);
+  //     player1Deck.push(tiePot);
+  //   } else if (winsRound(activePlayer2Card, activePlayer1Card)) {
+  //     gameDisplay.innerHTML = "Player2 wins Tie!";
+  //     player2Deck.unshift(activePlayer1Card);
+  //     player2Deck.unshift(activePlayer2Card);
+  //     player2Deck.push(tiePot);
+  //   }
+  //   tie = false;
+  // }
+
+  if (winsRound(activePlayer1Card, activePlayer2Card)) {
+    gameDisplay.innerHTML = "Player1 wins!";
+    player1Deck.unshift(activePlayer1Card);
+    player1Deck.unshift(activePlayer2Card);
+  } else if (winsRound(activePlayer2Card, activePlayer1Card)) {
+    gameDisplay.innerHTML = "Player2 wins!";
+    player2Deck.unshift(activePlayer1Card);
+    player2Deck.unshift(activePlayer2Card);
+  } else {
+    gameDisplay.innerHTML = "It's a Tie!";
+    player1Deck.unshift(activePlayer1Card);
+    player2Deck.unshift(activePlayer2Card);
+    // alert("Three cards on the line!");
+    // isTie = true;
+
+    // tieCards1 = player1Deck.splice(-3);
+    // tieCards2 = player2Deck.splice(-3);
+
+    // tiePot.push(tieCards1, tieCards2);
+  }
+}
+//// ---- ////
 
 // updates the display for each player
 function updateCardCount() {
-  playerDeckDisplay.innerHTML = playerDeck.length;
-  computerDeckDisplay.innerHTML = computerDeck.length;
+  player1DeckDisplay.innerHTML = player1Deck.length;
+  player2DeckDisplay.innerHTML = player2Deck.length;
 }
 
 updateCardCount();
@@ -146,4 +189,8 @@ updateCardCount();
 // determines round winner, true if player false if computer
 function winsRound(card1, card2) {
   return cardValues[card1.value] > cardValues[card2.value];
+}
+
+function isGameOver(deck) {
+  return deck.length === 0;
 }
