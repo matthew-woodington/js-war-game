@@ -3,6 +3,7 @@ html {
     box-sizing: border-box;
     height: 100%;
     background: linear-gradient(0.30turn, #66c4ed, #ebf8e1, #f3c491);  background-color: #b8bbbf;
+    background-size: cover;
 }
 
 *, *::before, *::after {
@@ -11,6 +12,7 @@ html {
 
 main {
     width: 80%;
+    max-width: 1000px;
     height: 100vh;
     margin: auto;
     display: flex;
@@ -60,6 +62,7 @@ button:hover {
 
 .deck {
     font-family: "Chewy", Arial, Helvetica, sans-serif;
+    color: #fff;
     width: 8rem;
     height: 12rem;
     display: flex;
@@ -76,7 +79,7 @@ button:hover {
 }
 
 .computer-deck {
-    background-color: #b72b2b;
+    background-color: #d33c2f;
 }
 
 .card {
@@ -86,12 +89,13 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 3rem;
+    font-size: 4rem;
     border: 2px solid #000000;
     border-radius: 0.5rem;
     margin: .5rem;
     background-color: #fff;
 }
+
 
 
 
