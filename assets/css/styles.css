@@ -10,6 +10,25 @@ html {
     box-sizing: inherit;
 }
 
+nav {
+    width: 100%;
+    height: 100px;
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #46474a;
+    top: 0;
+    left: 0;
+}
+
+.game-title {
+    font-family: "Fredoka One", Arial, Helvetica, sans-serif;
+    font-size: 4rem;
+    color: #fff;
+    margin-left: 20px;
+}
+
 main {
     width: 80%;
     max-width: 1000px;
@@ -25,6 +44,14 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.new-game {
+    background-color: #939599;
+}
+
+.new-game:hover {
+    background-color: #1886f5;
 }
 
 .text {
@@ -44,6 +71,7 @@ button {
     border: none;
     border-radius: 0.5rem;
     background-color: #46474a;
+    border: 2px solid #46474a;
     color: #fff;
     cursor: pointer;
 }
@@ -103,5 +131,29 @@ button:hover {
     main {
         flex-direction: column;
         justify-content: space-around;
+        height: auto;
+    }
+
+    body {
+        margin-top: 120px;
+    }
+
+}
+
+@media (max-width: 576px) {
+    nav {
+        height: 60px;
+    }
+
+    .game-title {
+        font-size: 2.5rem;
+    }
+    
+    body {
+        margin-top: 80px;
+    }
+
+    .new-game {
+        padding: 0.5rem 1rem;
     }
 }

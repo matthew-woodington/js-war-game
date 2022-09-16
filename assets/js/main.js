@@ -45,6 +45,9 @@ const player1DeckDisplay = document.querySelector(".player1-deck");
 const player2DeckDisplay = document.querySelector(".player2-deck");
 const gameDisplay = document.querySelector(".game-info");
 const drawButton = document.querySelector(".draw");
+const newGameButton = document.querySelector(".new-game");
+
+gameDisplay.innerHTML = "Draw to begin game!";
 
 //// CONSTRUCTORS ////
 
@@ -194,3 +197,9 @@ function winsRound(card1, card2) {
 function isGameOver(deck) {
   return deck.length === 0;
 }
+
+//// New Game ////
+
+newGameButton.addEventListener("click", () => {
+  location.reload();
+});
