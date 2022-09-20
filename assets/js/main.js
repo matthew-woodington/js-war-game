@@ -49,21 +49,7 @@ const Card = function ({ suit, value }) {
 const Deck = function () {
   this.cards = [];
   const suits = ["♥", "♦", "♠", "♣"];
-  const values = [
-    "A",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "J",
-    "Q",
-    "K",
-  ];
+  const values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
   for (let i = 0; i < suits.length; i++) {
     for (let j = 0; j < values.length; j++) {
       this.cards.push(new Card({ value: values[j], suit: suits[i] }));
@@ -82,10 +68,12 @@ const Game = function () {
 
 //// CONSTRUCTOR PROTOTYPE FUNCTIONS ////
 
+// shuffle cards
 Game.prototype.shuffle = function () {
   this.deck.cards.sort((a, b) => Math.random() - 0.5);
 };
 
+// deal cards alternating each player
 Game.prototype.deal = function () {
   for (let i = 0; i < this.deck.cards.length; i += 2) {
     this.player1.hand.push(this.deck.cards[i]);
@@ -97,6 +85,7 @@ Game.prototype.deal = function () {
   // this.player2.hand = this.deck.cards.slice(50);
 };
 
+// flip card from each player deck
 Game.prototype.flipCard = function () {
   this.player1.activeCard = this.player1.hand.pop();
   this.player2.activeCard = this.player2.hand.pop();
@@ -105,66 +94,50 @@ Game.prototype.flipCard = function () {
   console.log(this.player2.activeCard);
 };
 
+// update the active player cards
 Game.prototype.updateDisplay = function () {
   player1CardDisplay.innerHTML = `${this.player1.activeCard.value}${this.player1.activeCard.suit}`;
   player2CardDisplay.innerHTML = `${this.player2.activeCard.value}${this.player2.activeCard.suit}`;
 };
 
+// update the number of cards in each player deck
 Game.prototype.updateDeckValue = function () {
   player1DeckDisplay.innerHTML = this.player1.hand.length;
   player2DeckDisplay.innerHTML = this.player2.hand.length;
 };
 
 Game.prototype.isWinner = function () {
-  if (
-    cardValues[this.player1.activeCard.value] >
-    cardValues[this.player2.activeCard.value]
-  ) {
+  if (cardValues[this.player1.activeCard.value] > cardValues[this.player2.activeCard.value]) {
     gameDisplay.innerHTML = "Player1 Wins!";
     this.player1.hand.unshift(this.player1.activeCard);
     this.player1.hand.unshift(this.player2.activeCard);
   } else if (
-    cardValues[this.player2.activeCard.value] >
-    cardValues[this.player1.activeCard.value]
+    cardValues[this.player2.activeCard.value] > cardValues[this.player1.activeCard.value]
   ) {
     gameDisplay.innerHTML = "Player2 Wins!";
     this.player2.hand.unshift(this.player1.activeCard);
     this.player2.hand.unshift(this.player2.activeCard);
   } else if (
-    cardValues[this.player1.activeCard.value] ===
-    cardValues[this.player2.activeCard.value]
+    cardValues[this.player1.activeCard.value] === cardValues[this.player2.activeCard.value]
   ) {
     gameDisplay.innerHTML = "It's a Tie!";
     if (this.player1.hand.length <= 4 || this.player2.hand.length <= 4) {
       this.player1.hand.unshift(this.player1.activeCard);
       this.player2.hand.unshift(this.player2.activeCard);
     } else {
-      isTie = true;
       game.tieBreak();
     }
-    // isTie = true;
-    // game.tieBreak();
   }
+
   console.log(this.player1.hand, this.player2.hand);
 
   if (this.player1.hand.length === 0) {
     gameDisplay.innerHTML = "Player2 Wins Game!";
-    player1DeckDisplay.innerHTML = "☹";
-    player1CardDisplay.innerHTML = "";
-    player2CardDisplay.innerHTML = "";
-    player2DeckDisplay.innerHTML = "☺";
-
     document.getElementById("draw-button").disabled = true;
     return;
   } else if (this.player2.hand.length === 0) {
     gameDisplay.innerHTML = "Player1 Wins Game!";
-    player1DeckDisplay.innerHTML = "☺";
-    player1CardDisplay.innerHTML = "";
-    player2CardDisplay.innerHTML = "";
-    player2DeckDisplay.innerHTML = "☹";
-
     document.getElementById("draw-button").disabled = true;
-
     return;
   } else if (this.player1.hand.length > 0 || this.player1.hand.length > 0) {
     return;
@@ -172,42 +145,48 @@ Game.prototype.isWinner = function () {
 };
 
 Game.prototype.tieBreak = function () {
-  tieCards1 = this.player1.hand.splice(-3);
-  tieCards2 = this.player2.hand.splice(-3);
-  tiePot = tieCards1.concat(tieCards2);
-  tiePot.push(this.player1.activeCard, this.player2.activeCard);
+  tiePot.push(this.player1.activeCard);
+  tiePot.push(this.player2.activeCard);
+
+  tieCards1 = this.player1.hand.splice(this.player1.hand.length - 3);
+  tieCards2 = this.player2.hand.splice(this.player2.hand.length - 3);
+
+  tiePot.push(...tieCards1);
+  tiePot.push(...tieCards2);
 
   console.log(tiePot);
   isTie = true;
 };
 
 Game.prototype.addTieWinner = function () {
-  if (
-    cardValues[this.player1.activeCard.value] >
-    cardValues[this.player2.activeCard.value]
-  ) {
+  if (cardValues[this.player1.activeCard.value] > cardValues[this.player2.activeCard.value]) {
     gameDisplay.innerHTML = "Player1 Wins Tiebreak!";
     this.player1.hand.unshift(this.player1.activeCard);
     this.player1.hand.unshift(this.player2.activeCard);
-    this.player1.hand = this.player1.hand.concat(tiePot);
+    this.player1.hand.unshift(...tiePot);
+    game.clearTie();
   } else if (
-    cardValues[this.player2.activeCard.value] >
-    cardValues[this.player1.activeCard.value]
+    cardValues[this.player2.activeCard.value] > cardValues[this.player1.activeCard.value]
   ) {
     gameDisplay.innerHTML = "Player2 Wins Tiebreak!";
     this.player2.hand.unshift(this.player1.activeCard);
     this.player2.hand.unshift(this.player2.activeCard);
-    this.player2.hand = this.player2.hand.concat(tiePot);
+    this.player2.hand.unshift(...tiePot);
+    game.clearTie();
   } else if (
-    cardValues[this.player1.activeCard.value] ===
-    cardValues[this.player2.activeCard.value]
+    cardValues[this.player1.activeCard.value] === cardValues[this.player2.activeCard.value]
   ) {
     gameDisplay.innerHTML = "It's a Tie!";
     game.tieBreak();
   }
 
   console.log(this.player1.hand, this.player2.hand);
+};
 
+Game.prototype.clearTie = function () {
+  tiePot = [];
+  tieCards1 = [];
+  tieCards2 = [];
   isTie = false;
 };
 
@@ -249,9 +228,9 @@ newGameButton.addEventListener("click", () => {
 drawButton.addEventListener("click", () => {
   if (isTie === false) {
     game.flipCard();
+    game.isWinner();
     game.updateDisplay();
     game.updateDeckValue();
-    game.isWinner();
   } else if (isTie !== false) {
     game.flipCard();
     game.addTieWinner();
